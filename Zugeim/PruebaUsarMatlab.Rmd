@@ -1,0 +1,24 @@
+---
+title: "PruebaMatlab"
+author: "Imanol"
+date: "8/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_chunk$set(engine.path = list(matlab = "C:/Archivos de programa/MATLAB/R2020b/bin/matlab.exe"))
+
+library(reticulate)
+use_python("C:/Users/Imano/anaconda3/envs/Curso Algebra Lineal/python.exe")
+```
+
+Estas son en Matlab
+
+```{matlab}
+z1 = complex(1,2)
+class(z1)
+disp(z1)
+```
+
