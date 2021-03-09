@@ -22,3 +22,9 @@ class(z1)
 disp(z1)
 ```
 
+Para saber que lenguajes puedo usar en R
+```{r}
+library(knitr)
+names(knit_engines$get())
+```
+
