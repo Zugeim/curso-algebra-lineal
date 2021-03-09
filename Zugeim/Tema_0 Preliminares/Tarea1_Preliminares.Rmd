@@ -1,0 +1,114 @@
+---
+title: "Preliminares"
+author: "Imanol"
+date: "9/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_chunk$set(engine.path = list(matlab = "C:/Archivos de programa/MATLAB/R2020b/bin/matlab.exe"))
+
+library(reticulate)
+use_python("../../../anaconda3/envs/Curso Algebra Lineal/python.exe")
+```
+
+# En R 
+
+## Pregunta 2
+```{r}
+(2+3i)+(1+1i)
+(1+1i)+(1-1i)
+polynomial(coef = c(1,1,1)) + polynomial(coef = c(-1,1))
+```
+
+## Pregunta 3
+```{r}
+(2+3i)*(1+1i)
+(1+1i)*(1-1i)
+polynomial(coef = c(1,1,1)) * polynomial(coef = c(-1,1))
+polynomial(coef = c(1,1))^2
+polynomial(coef = c(1,1)) * polynomial(coef = c(-1,1))
+```
+
+## Pregunta 4
+```{r}
+Mod(2+3i)
+Mod(1i)
+Mod((2+3i)+(1+1i))
+Mod((1+1i)+(1-1i))
+Mod((2+3i)*(1+1i))
+Mod((1+1i)*(1-1i))
+```
+
+## Pregunta 5
+```{r}
+p51 = polynomial(coef = c(2,2))
+length(p51) - 1
+
+p52 = polynomial(coef = c(2,3,0,0,0,1))
+length(p52) - 1
+
+p53 = polynomial(coef = c(1,1,1))*polynomial(coef = c(-1,1))
+length(p53) - 1
+
+p54 = polynomial(coef = c(1,1))^2
+length(p54) - 1
+
+p55 = polynomial(coef = c(1,1))*polynomial(coef = c(-1,1))
+length(p55) - 1
+```
+
+## Pregunta 6
+```{r}
+p611 = polynomial(coef = c(1,1))^2
+p612 = polynomial(coef = c(1,0,1))
+p611 == p612
+
+p621 = polynomial(coef = c(1,1))^2
+p622 = polynomial(coef = c(1,2,1))
+p621 == p622
+
+p631 = polynomial(coef = c(1,1))^3
+p632 = polynomial(coef = c(1,0,0,1))
+p631 == p632
+
+p641 = polynomial(coef = c(1,1))^3
+p642 = polynomial(coef = c(1,3,3,1))
+p641 == p642
+
+p651 = polynomial(coef = c(1,1)) * polynomial(coef = c(-1,1))
+p652 = polynomial(coef = c(-1,0,1))
+p651 == p652
+
+p661 = polynomial(coef = c(-1,1))^2
+p662 = polynomial(coef = c(1,-2,1))
+p661 == p662
+```
+
+## Pregunta 7
+```{r}
+polyroot(c(2,2))
+
+polyroot(c(2,3,0,0,0,1))
+
+polyroot(polynomial(coef = c(1,1,1))*polynomial(coef = c(-1,1)))
+
+polyroot(polynomial(coef = c(1,1,1))^2)
+
+polyroot(polynomial(coef = c(1,1)) * polynomial(coef = c(-1,1)))
+```
+
+
+# En Python 
+
+```{python}
+
+```
+
+# En Matlab
+
+```{r}
+
+```
