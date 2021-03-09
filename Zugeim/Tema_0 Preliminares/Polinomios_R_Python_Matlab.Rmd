@@ -1,0 +1,150 @@
+---
+title: "Polinomios"
+author: "Imanol"
+date: "9/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_chunk$set(engine.path = list(matlab = "C:/Archivos de programa/MATLAB/R2020b/bin/matlab.exe"))
+
+library(reticulate)
+use_python("../../../anaconda3/envs/Curso Algebra Lineal/python.exe")
+```
+
+# En R
+```{r}
+p = polynomial(coef = c(1,2,3,4,5))
+p
+
+q = polynomial(coef = c(1,2,3))
+q
+
+p==q
+
+# Calcular grado del polinomio
+gradoP = length(p)-1
+gradoQ = length(q)-1
+gradoP
+gradoQ
+
+p+q
+p*q
+
+# Para dividir
+cociente = p / q
+resto = p%%q
+cociente
+resto
+q*cociente + resto == p
+
+# Para evaluar un polinomio
+predict(p,1)
+predict(p,0)
+
+# Para hallar raices 
+polyroot(c(-4,0,1)) # x^2-4
+polyroot(p)
+```
+
+# En PYthon
+
+## Primera manera sympy
+```{python}
+import sympy
+
+x = sympy.symbols('x') # A partir de ahora x es un simbolo
+p = sympy.Poly(x**2)
+p
+
+q = sympy.Poly(1+x+x**3)
+q
+
+p == q
+
+#Grado del polinomio
+p.degree()
+q.degree()
+
+p+q
+p*q
+```
+
+## Segunda manera sympy
+```{python}
+import numpy
+
+r = numpy.poly1d([1,2,1]) # X^2 + 2x + 1
+print(r)
+s = numpy.poly1d([1,2,3,4,5]) # X^4 + 2X^3 + 3X^2 + 4x + 5
+print(s)
+
+r == s
+
+#Grado del polinomio
+r.order
+s.order
+
+r+s
+r*s
+
+# Division de polinomios
+s/r # Primera parte cociente, segunda parte
+r*numpy.poly1d([1,0,2]) + 3 == s
+
+# Evaluar polinomios
+r(0)
+s(2)
+
+#Para hallar las raices
+r.r
+s.r
+```
+
+## Manejar polinomios
+```{python}
+#Grado del polinomio
+p.degree()
+q.degree()
+```
+
+# En Matlab
+```{matlab}
+p = [1,2,3,4,5]
+q = [1,0,0,1]
+
+gradoP = length(p)-1
+gradoQ = length(q)-1
+
+% Para poder sumar los polinomios
+p = [zeros(1,gradoQ-gradoP),p]
+q = [zeros(1,gradoP-gradoQ),q]
+p+q
+
+% Producto de polinomios
+p = [1,2,3,4,5]
+q = [1,0,0,1]
+producto = conv(p,q)
+
+% Division de polinomios
+p = [1,2,3,4,5]
+q = [1,0,0,1]
+[cociente, resto] = deconv(p,q)
+
+p == conv(q,cociente) + resto
+
+% Evaluar polinomios
+p = [1,2,3,4,5]
+q = [1,0,0,1]
+polyval(p,0)
+polyval(q,3)
+
+% Raices
+p = [1,2,3,4,5]
+q = [1,0,0,1]
+roots(p)
+roots(q)
+```
+
