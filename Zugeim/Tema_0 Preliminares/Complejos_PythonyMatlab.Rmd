@@ -1,0 +1,58 @@
+---
+title: "Complejos con Python"
+author: "Imanol"
+date: "9/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_chunk$set(engine.path = list(matlab = "C:/Archivos de programa/MATLAB/R2020b/bin/matlab.exe"))
+
+library(reticulate)
+use_python("../../../anaconda3/envs/Curso Algebra Lineal/python.exe")
+```
+
+# Python
+```{python}
+z1 = 4+3j
+z1
+
+z2 = complex(1,7)
+z2
+
+type(z1)
+
+z1.real
+z2.imag
+
+z1.conjugate()
+
+# Modulo y argumento absoluto de un complejo
+import cmath
+abs(z1)         # Modulo
+cmath.phase(z1) # Argumento
+
+z1+z2
+5*z2
+z1*z2
+```
+
+```{matlab}
+z1 = complex(1,2)
+z2 = 2-i
+tipoDato1 = class(z1) 
+tipoDato2 = class(z2)
+
+real(z1)
+imag(z2)
+
+conj(z1)  % El conjugado
+abs(z2)   % El modulo
+angle(z2) % El argumento
+
+z1+z2
+8*z2
+z1*z2
+```
