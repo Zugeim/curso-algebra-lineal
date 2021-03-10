@@ -16,6 +16,7 @@ use_python("../../../anaconda3/envs/Curso Algebra Lineal/python.exe")
 
 # En R
 ```{r}
+library(polynom)
 p = polynomial(coef = c(1,2,3,4,5))
 p
 

@@ -20,6 +20,7 @@ use_python("../../../anaconda3/envs/Curso Algebra Lineal/python.exe")
 ```{r}
 (2+3i)+(1+1i)
 (1+1i)+(1-1i)
+library(polynom)
 polynomial(coef = c(1,1,1)) + polynomial(coef = c(-1,1))
 ```
 
