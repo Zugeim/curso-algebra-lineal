@@ -236,7 +236,77 @@ print(np.linalg.inv(A).dot(A)) # Comprobamos (nos deberia dar la matriz identida
 ```
 
 # Matlab
-```{matlab}
 
+## Matrices
+```{matlab}
+% Suma de elementos de una matriz
+M = [1 2 3; 4 5 6; 7 8 9];
+suma = sum(sum(M)) % Primer sum suma por fila y segundo sum por columna
+
+% Suma de elementos por filas y por columnas
+M = [1 2 3; 4 5 6; 7 8 9];
+sumaFil = sum(M,2)
+sumaCol = sum(M,1) % O sumaCol = sum(M)
+
+% Multiplicar elementos de una matriz
+M = [1 2 3; 4 5 6; 7 8 9];
+producto = prod(prod(M))
+
+% Media
+M = [1 2 3; 4 5 6; 7 8 9];
+media = mean(mean(M))
+mediaFil = mean(M,2)
+mediaCol = mean(M,1)
 ```
 
+## Operaciones con matrices
+```{matlab}
+% Traspuesta
+M = [1 2 3; 4 5 6; 7 8 9];
+M'
+
+% Traza de la matriz
+A = [1 -1; 0 3];
+B = [2 1; -1 0];
+trace(A)
+trace(B)
+
+% Suma matrices
+%Siempre que sean de la misma dimension se pueden llevar a cabo
+A = [1 -1; 0 3];
+B = [2 1; -1 0];
+A+B
+
+% Producto escalar por matrices
+A = [1 -1; 0 3];
+2*A
+
+% Producto de matrices
+A = [1 -1; 0 3];
+B = [2 1; -1 0];
+A*B
+
+% Potencia de matrices
+A = [1 -1; 0 3];
+B = [2 1; -1 0];
+A^3
+B^4
+```
+
+## Rango e inversa de Matrices
+
+```{matlab}
+% Rango
+A = [1 -1; 0 3];
+B = [2 1; -1 0];
+rank(A)
+rank(B)
+
+% Inversa
+A = [1 -1; 0 3];
+B = [2 1; -1 0];
+inv(A)
+inv(A)*A % Comprobamos
+inv(B)
+inv(B)*B % Comprobamos
+```
