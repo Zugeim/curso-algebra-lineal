@@ -119,8 +119,120 @@ qr(A)$rank
 ```
 
 # Python
-```{python}
 
+## Matrices
+```{python}
+row = [1,2,3] # Para crear una matriz fila
+row
+
+col = [[1],[2],[3]] # Para crear una matriz columna
+col
+
+ 
+# Creacion de matrices
+
+M = [[1,2,3],[4,5,6],[7,8,9]]
+M
+
+# Para acceder a la matriz
+
+M[1][1] # Elemento a11
+M[0][0] # Primera fila primera columna
+M[0]    # Primera fila
+
+# Para acceder a las columnas necesitamos numpy
+
+## El manejo es mas comodo con numpy
+##antes eran listas en python, ahora si es una matriz
+import numpy as np
+M = np.array([[1,2,3],[4,5,6],[7,8,9]])
+print(M)
+## Ademas tiene dtype() con el que podemos elegir el tipo de dato
+M = np.array([[1,2,3],[4,5,6],[7,8,9]], dtype = complex)
+print(M)
+M = np.array([[1,2,3],[4,5,6],[7,8,9]], dtype = float)
+print(M)
+
+## Acceso con numpy
+M = np.array([[1,2,3],[4,5,6],[7,8,9]])
+print(M)
+M[0][2]
+print(M[1])
+M[1,:] # Segunda fila
+M[:,0] # Primera columna
+
+# Crear matrices de ceros y unos
+print(np.zeros((5,7)))
+print(np.ones((5,7)))
+ 
+
+# Matriz diagonal
+x = [1,2,3,4]
+N = np.diag(x) # Pasando un vector
+N
+
+# Para sacar los elementos de la diagonal de una matriz
+np.diag(N) # Pasando una matriz
+
+
+# Numero de filas y columnas
+np.shape(M)
+```
+
+## Manipulación de Matrices
+```{python}
+# Suma todos los elementos de la matriz
+np.sum(M)
+
+# Suma por filas y columnas
+np.sum(M, axis = 0) # Fila
+np.sum(M, axis = 1) # Columna
+
+# Producto de todos los elementos
+np.prod(M) # Cuidado con hacer overflow
+
+# Media
+np.mean(M) # media de toda la matriz
+np.mean(M, axis = 0) # Media por filas
+np.mean(M, axis = 1) # Media por columnas
+```
+
+## Operaciones de Matrices
+```{python}
+# Traspuesta
+print(M.transpose())
+
+# Calcular traza de la matriz
+print(M.trace())
+
+# Suma matrices
+A = np.array([[1,2],[2,0]])
+B = np.array([[3,0],[1,4]])
+print(A+B)
+
+# Producto escalar por matriz
+print(5*A)
+
+# Producto de matrices
+print(A.dot(B))
+
+# Producto elemento a elemento
+print(A*B)
+
+# Potencia de una matriz
+print(np.linalg.matrix_power(A,5))
+```
+
+
+## Rango e inversa de Matrices
+```{python}
+# Rango
+np.linalg.matrix_rank(A)
+np.linalg.matrix_rank(B)
+
+# Inversa
+print(np.linalg.inv(A))
+print(np.linalg.inv(A).dot(A)) # Comprobamos (nos deberia dar la matriz identidad)
 ```
 
 # Matlab
