@@ -1,0 +1,231 @@
+---
+title: "Matrices con R, Python y Matlab"
+author: "Imanol"
+date: "11/3/2021"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_chunk$set(engine.path = list(matlab = "C:/Archivos de programa/MATLAB/R2020b/bin/matlab.exe"))
+
+library(reticulate)
+use_python("../../../anaconda3/envs/Curso Algebra Lineal/python.exe")
+```
+
+# R 
+
+## Pregunta 1
+```{r}
+library(Matrix)
+
+A = matrix(c(0,1,-2,2,3,-1,1,-1,5), nrow = 3, byrow = TRUE)
+A
+
+B = matrix(c(1,-1,2,1,2,-2,2,-2,-1,2,1,2), nrow = 3, byrow = TRUE)
+B
+
+C = matrix(c(2,0,1,-4), ncol = 1, byrow = TRUE)
+C
+
+A%*%B
+B%*%C
+t(B)
+t(B)%*%A
+t(C)%*%t(B)
+```
+
+## Pregunta 2
+```{r}
+library(Matrix)
+
+A = matrix(c(0,1,0,1), nrow = 2, byrow = TRUE)
+A
+
+B = matrix(c(-1,-1,0,0), nrow = 2, byrow = TRUE)
+B
+
+library(Biodem)
+mtx.exp(A+B,2) == mtx.exp(A,2) + 2*A%*%B + mtx.exp(B,2) 
+# TRUE FALSE
+# TRUE  TRUE
+# AB12 es distinto, por lo que se cumple que son distintas.
+mtx.exp(A+B,3) == mtx.exp(A,3) + 3*mtx.exp(A,2)%*%B + mtx.exp(B,3) 
+# TRUE TRUE
+# TRUE TRUE
+# Son iguales
+
+```
+
+## Pregunta 3 
+```{r}
+library(Matrix)
+
+A = matrix(c(-1,1,-2,1,1,0,2,1,1), nrow = 3, byrow = TRUE)
+A
+
+B = matrix(c(-1,2,3,4,5,1,2,1,3,2,0,4,4,7,7), nrow = 3, byrow = TRUE)
+B
+
+qr(A)$rank # 2
+qr(B)$rank # 2
+```
+
+## Pregunta 4 
+```{r}
+library(Matrix)
+
+A = matrix(c(1,2,0,0,1,-1,0,0,2), nrow = 3, byrow = TRUE)
+A
+
+B = matrix(c(1i,0,0,0,0,1,1,1i,0), nrow = 3, byrow = TRUE)
+B
+
+solve(A) 
+solve(B)
+```
+
+# Python 
+
+## Pregunta 1
+```{python}
+import numpy as np
+
+A = np.array([[0,1,-2],[2,3,-1],[1,-1,5]])
+A
+
+B = np.array([[1,-1,2,1],[2,-2,2,-2],[-1,2,1,2]])
+B
+
+C = np.array([[2],[0],[1],[-4]])
+C
+
+A.dot(B)
+B.dot(C)
+B.transpose()
+B.transpose().dot(A)
+C.transpose().dot(B.transpose())
+```
+
+## Pregunta 2 SIN HACER
+```{python}
+library(Matrix)
+
+A = matrix(c(0,1,0,1), nrow = 2, byrow = TRUE)
+A
+
+B = matrix(c(-1,-1,0,0), nrow = 2, byrow = TRUE)
+B
+
+library(Biodem)
+mtx.exp(A+B,2) == mtx.exp(A,2) + 2*A%*%B + mtx.exp(B,2) 
+# TRUE FALSE
+# TRUE  TRUE
+# AB12 es distinto, por lo que se cumple que son distintas.
+mtx.exp(A+B,3) == mtx.exp(A,3) + 3*mtx.exp(A,2)%*%B + mtx.exp(B,3) 
+# TRUE TRUE
+# TRUE TRUE
+# Son iguales
+
+```
+
+## Pregunta 3 SIN HACER
+```{python}
+library(Matrix)
+
+A = matrix(c(-1,1,-2,1,1,0,2,1,1), nrow = 3, byrow = TRUE)
+A
+
+B = matrix(c(-1,2,3,4,5,1,2,1,3,2,0,4,4,7,7), nrow = 3, byrow = TRUE)
+B
+
+qr(A)$rank # 2
+qr(B)$rank # 2
+```
+
+## Pregunta 4 
+```{python}
+import numpy as np
+
+A = np.array([[1,2,0],[0,1,-1],[0,0,2]])
+A
+
+B = np.array([[1j,0,0],[0,0,1],[1,1j,0]], dtype = complex)
+B
+
+np.linalg.inv(A)
+np.linalg.inv(B) 
+```
+
+# Matlab 
+
+## Pregunta 1
+```{matlab}
+
+A = [0,1,-2; 2,3,-1; 1,-1,5];
+A
+
+B = [1,-1,2,1; 2,-2,2,-2; -1,2,1,2];
+B
+
+C = [2; 0; 1; -4];
+C
+
+A*B
+B*C
+B'
+(B')*A
+C'*B'
+```
+
+## Pregunta 2 SIN HACER
+```{matlab}
+library(Matrix)
+
+A = matrix(c(0,1,0,1), nrow = 2, byrow = TRUE)
+A
+
+B = matrix(c(-1,-1,0,0), nrow = 2, byrow = TRUE)
+B
+
+library(Biodem)
+mtx.exp(A+B,2) == mtx.exp(A,2) + 2*A%*%B + mtx.exp(B,2) 
+# TRUE FALSE
+# TRUE  TRUE
+# AB12 es distinto, por lo que se cumple que son distintas.
+mtx.exp(A+B,3) == mtx.exp(A,3) + 3*mtx.exp(A,2)%*%B + mtx.exp(B,3) 
+# TRUE TRUE
+# TRUE TRUE
+# Son iguales
+
+```
+
+## Pregunta 3 SIN HACER
+```{matlab}
+library(Matrix)
+
+A = matrix(c(-1,1,-2,1,1,0,2,1,1), nrow = 3, byrow = TRUE)
+A
+
+B = matrix(c(-1,2,3,4,5,1,2,1,3,2,0,4,4,7,7), nrow = 3, byrow = TRUE)
+B
+
+qr(A)$rank # 2
+qr(B)$rank # 2
+```
+
+## Pregunta 4 SIN HACER
+```{matlab}
+import numpy as np
+
+A = np.array([[1,2,0],[0,1,-1],[0,0,2]])
+A
+
+B = np.array([[1j,0,0],[0,0,1],[1,1j,0]], dtype = complex)
+B
+
+np.linalg.inv(A)
+np.linalg.inv(B) 
+```
