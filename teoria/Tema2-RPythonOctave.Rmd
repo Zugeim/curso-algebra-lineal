@@ -1,12 +1,13 @@
 ---
 title: "Tema 2- Ecuaciones y Sistemas Lineales con R, Python y Octave"
-author: Juan Gabriel Gomila & María Santos
-date: 
-output: 
+author: "Juan Gabriel Gomila & María Santos"
+date: "null"
+output:
+  slidy_presentation: default
   ioslides_presentation:
-    widescreen: true
     css: Mery_style.css
     logo: Images/matriz_mov.gif
+    widescreen: yes
 ---
 
 ```{r setup, include=FALSE}
