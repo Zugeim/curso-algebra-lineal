@@ -1,0 +1,283 @@
+---
+title: "Tarea 6"
+author: "Imanol"
+date: "12/3/2021"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_chunk$set(engine.path = list(matlab = "C:/Archivos de programa/MATLAB/R2020b/bin/matlab.exe"))
+
+library(reticulate)
+use_python("../../../anaconda3/envs/Curso Algebra Lineal/python.exe")
+
+# Para que no de errores el QT
+py_run_string("import os as os")
+py_run_string("os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = 'C:/Users/imano/anaconda3/Library/plugins/platforms'")
+```
+
+# EJERCICIO 1
+
+Resolver el siguiente sistema
+
+$$\left\{\begin{matrix}
+10x_1&+&2x_2&-&x_3&+&x_4&&&+&10x_6&=&0\\
+-x_1&-&3x_2&&&&&-&x_5&+&5x_6&=&5\\
+&&-x_2&+&3x_3&-&x_4&&&&&=&5\\
+17x_1&+&x_2&&&+&3x_4&+&5x_5&-&15x_6&=&4\\
+&&-10x_2&&&-&5x_4&+&3x_5&&&=&-21\\
+-3x_1&+&x_2&+&x_3&+&x_4&-&2x_5&+&2x_6&=&11\\\end{matrix}\right.$$
+
+Primero, comprobar el tipo de sistema (compatible determinado, compatible indeterminado o incompatible) con R, Python y Octave.
+
+Después, en caso de haber solución, calcularla con R, Python y Octave. Finalmente, indicar la solución final junto con el procedimiento llevado a cabo.
+
+## R
+```{r}
+library(matlib)
+
+A = rbind(c(10,2,-1,1,0,10),
+          c(-1,-3,0,0,-1,5),
+          c(0,-1,3,-1,0,0),
+          c(17,1,0,3,5,-15),
+          c(0,-10,0,-5,3,0),
+          c(-3,1,1,1,-2,2))
+A
+
+b = c(0,5,5,4,-21,11)
+b
+
+AB = AB = cbind(A,b)
+AB
+
+# Comprobamos el rango
+all.equal(R(A),R(AB)) # True, es compatible
+R(A)==6 # True, es determinado. Una unica solucion
+
+# Resolvemos el sistema
+Solve(A,b)
+  # x1 = 0
+  # x2 = -1
+  # x3 = 3
+  # x4 = 5
+  # x5 = -2
+  # x6 = 0
+```
+
+## Python
+```{python}
+import numpy as np
+
+A = np.array([[10,2,-1,1,0,10],[-1,-3,0,0,-1,5],[0,-1,3,-1,0,0],[17,1,0,3,5,-15],[0,-10,0,-5,3,0],[-3,1,1,1,-2,2]])
+b = np.array([0,5,5,4,-21,11])
+AB = np.array([[10,2,-1,1,0,10,0],[-1,-3,0,0,-1,5,5],[0,-1,3,-1,0,0,5],[17,1,0,3,5,-15,4],[0,-10,0,-5,3,0,-21],[-3,1,1,1,-2,2,11]])
+
+#Comprobar que los rangos son iguales
+np.linalg.matrix_rank(A) == np.linalg.matrix_rank(AB)
+
+# Comprobar si ademas el rango es igual a las incognitas
+np.linalg.matrix_rank(A) == 6
+
+# Resolvemos
+x = np.linalg.solve(A,b)
+x
+```
+
+## Matlab
+```{matlab}
+A = [10,2,-1,1,0,10; -1,-3,0,0,-1,5; 0,-1,3,-1,0,0; 17,1,0,3,5,-15; 0,-10,0,-5,3,0; -3,1,1,1,-2,2];
+b = [0;5;5;4;-21;11];
+AB = [A b];
+
+% Comprobar los rangos
+rank(A) == rank(AB)
+rank(A) == 6 
+
+% Resolvemos
+x = linsolve(A,b)
+```
+
+
+# EJERCICIO 2
+
+Resolver el siguiente sistema
+
+$$\left\{\begin{matrix}
+-2x_1&+&2x_2&-&x_3&+&x_4&&&+&4x_6&&&=&5\\
+-x_1&-&3x_2&&&&&-&x_5&+&5x_6&-&2x_7&=&3\\
+&&-x_2&+&3x_3&-&x_4&&&&&&&=&5\\
+&&x_2&&&+&3x_4&-&2x_5&+&x_6&+&4x_7&=&0\\
+&&-3x_2&&&-&5x_4&+&3x_5&&&-&2x_7&=&5\\
+-3x_1&+&x_2&+&x_3&+&x_4&-&2x_5&+&2x_6&+&x_7&=&0\\\end{matrix}\right.$$
+
+Primero, comprobar el tipo de sistema (compatible determinado, compatible indeterminado o incompatible) con R, Python y Octave.
+
+Después, en caso de haber solución, calcularla con R, Python y Octave. Finalmente, indicar la solución final junto con el procedimiento llevado a cabo.
+
+## R
+```{r}
+library(matlib)
+
+A = rbind(c(-2,2,-1,1,0,4,0),
+          c(-1,-3,0,0,-1,5,-2),
+          c(0,-1,+3,-1,0,0,0),
+          c(0,1,0,3,-2,1,4),
+          c(0,-3,0,-5,3,0,-2),
+          c(-3,1,1,1,-2,2,1))
+A
+
+b = c(5,3,5,0,5,0)
+b
+
+AB = AB = cbind(A,b)
+AB
+
+# Comprobamos el rango
+all.equal(R(A),R(AB)) # True, es compatible
+R(A)==7 # False, es indeterminado, infinitas soluciones.
+```
+
+## Python
+```{python}
+import numpy as np
+
+A = np.array([[-2,2,-1,1,0,4,0],[-1,-3,0,0,-1,5,-2],[0,-1,+3,-1,0,0,0],[0,1,0,3,-2,1,4],[0,-3,0,-5,3,0,-2],[-3,1,1,1,-2,2,1]])
+b = np.array([5,3,5,0,5,0])
+AB = np.array([[-2,2,-1,1,0,4,0,5],[-1,-3,0,0,-1,5,-2,3],[0,-1,+3,-1,0,0,0,5],[0,1,0,3,-2,1,4,0],[0,-3,0,-5,3,0,-2,5],[-3,1,1,1,-2,2,1,0]])
+
+#Comprobar que los rangos son iguales
+np.linalg.matrix_rank(A) == np.linalg.matrix_rank(AB)
+
+# Comprobar si ademas el rango es igual a las incognitas
+np.linalg.matrix_rank(A) == 7
+```
+
+## Matlab
+```{matlab}
+A = [-2,2,-1,1,0,4,0; -1,-3,0,0,-1,5,-2; 0,-1,+3,-1,0,0,0; 0,1,0,3,-2,1,4; 0,-3,0,-5,3,0,-2; -3,1,1,1,-2,2,1]
+b = [5;3;5;0;5;0];
+AB = [A b];
+
+% Comprobar los rangos
+rank(A) == rank(AB)
+rank(A) == 7 
+```
+# EJERCICIO 3
+
+Resolver el siguiente sistema
+
+$$\left\{\begin{matrix}
+10x_1&+&2x_2&-&x_3&+&x_4&&&+&10x_6&=&0\\
+-x_1&-&3x_2&&&&&-&x_5&+&5x_6&=&5\\
+9x_1&-&x_2&-&x_3&+&x_4&-&x_5&+&15x_6&=&0\\
+17x_1&+&x_2&&&+&3x_4&+&5x_5&-&15x_6&=&4\\
+&&-10x_2&&&-&5x_4&+&3x_5&&&=&-21\\
+-3x_1&+&x_2&+&x_3&+&x_4&-&2x_5&+&2x_6&=&11\\\end{matrix}\right.$$
+
+Primero, comprobar el tipo de sistema (compatible determinado, compatible indeterminado o incompatible) con R, Python y Octave.
+
+Después, en caso de haber solución, calcularla con R, Python y Octave. Finalmente, indicar la solución final junto con el procedimiento llevado a cabo.
+
+## R
+```{r}
+library(matlib)
+
+A = rbind(c(10,2,-1,1,0,10),
+          c(-1,-3,0,0,-1,5),
+          c(9,-1,-1,1,-1,15),
+          c(17,1,0,3,5,-15),
+          c(0,-10,0,-5,3,0),
+          c(-3,1,1,1,-2,2))
+A
+
+b = c(0,5,0,4,-21,11)
+b
+
+AB = AB = cbind(A,b)
+AB
+
+# Comprobamos el rango
+all.equal(R(A),R(AB)) # Hay diferencia, es Incompatible. No hay solucion.
+```
+
+## Python
+```{python}
+import numpy as np
+
+A = np.array([[10,2,-1,1,0,10],[-1,-3,0,0,-1,5],[9,-1,-1,1,-1,15],[17,1,0,3,5,-15],[0,-10,0,-5,3,0],[-3,1,1,1,-2,2]])
+b = np.array([0,5,0,4,-21,11])
+AB = np.array([[10,2,-1,1,0,10,0],[-1,-3,0,0,-1,5,5],[0,-1,3,-1,0,0,0],[17,1,0,3,5,-15,4],[0,-10,0,-5,3,0,-21],[-3,1,1,1,-2,2,11]])
+
+#Comprobar que los rangos son iguales
+np.linalg.matrix_rank(A) == np.linalg.matrix_rank(AB)
+```
+
+## Matlab
+```{matlab}
+A = [10,2,-1,1,0,10; -1,-3,0,0,-1,5; 9,-1,-1,1,-1,15; 17,1,0,3,5,-15; 0,-10,0,-5,3,0; -3,1,1,1,-2,2];
+b = [0;5;0;4;-21;11];
+AB = [A b];
+
+% Comprobar los rangos
+rank(A) == rank(AB)
+```
+
+# EJERCICIO 4
+
+Encuentra la matriz X, ya sea a mano o con R,Python u Octave, tal que
+
+## Apartado (a)
+
+$$AX+3B = -5X$$
+donde las matrices $A$ y $B$ son:
+
+$$A = \begin{pmatrix}-6 & -3\\ 0 & -3\end{pmatrix},\quad B = \begin{pmatrix}-1 & 0\\ 4 & -2\end{pmatrix}$$
+
+### R
+```{r}
+```
+
+### Python
+### Matlab
+```{matlab}
+% Resuelto (A-5*I)X = 3*B
+
+A = [-6 -3; 0 -3];
+B = [-1 0; 4 -2];
+I = [1 0; 0 1];
+
+M = (A-5*I)
+N = 3*B
+
+X = linsolve(M,N)
+```
+
+## Apartado (b)
+
+$$ACX+3B = 10I-X$$
+donde las matrices $A$, $B$, $C$ e $I$  son:
+
+$$A = \begin{pmatrix}1 & 2\\ 0 & 2\end{pmatrix},\quad B=\begin{pmatrix}2 & -1\\ -1 & 5\end{pmatrix},\quad C = \begin{pmatrix}2 & 6\\ -1 & -0.5\end{pmatrix},\quad I=\begin{pmatrix}1 & 0 \\0 & 1\end{pmatrix}$$
+
+### R
+### Python
+### Matlab
+```{matlab}
+% Resuelto (A*C+I)X = 10*I - 3*B
+
+A = [1 2; 0 2];
+B = [2 -1; -1 5];
+C = [2 6; -1 -0.5];
+I = [1 0; 0 1];
+
+M = (A*C+I)
+N = 10*I - 3*B
+
+X = linsolve(M,N)
+```
+
