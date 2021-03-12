@@ -267,5 +267,187 @@ plt.show()
 ```{python}
 linsolve(Matrix(([1, 1, 2], [1, -1, 1], [2, 1, 3])), (x, y))
 ```
-
 Es decir, que el conjunto de soluciones es el conjunto vacío, $\emptyset$. Esto se debe a que el sistema es incompatible y no tiene solución.
+
+# Matlab 
+
+## Sistemas compatibles determinados.
+```{matlab}
+A = [1 1 2; 2 4 -3; 3 6 -5];
+b = [9;1;0];
+AB = [A b];
+
+% Comprobar los rangos
+rank(A) == rank(AB)
+rank(A) 
+
+% Resolvemos
+x = linsolve(A,b)
+```
+
+### Representacion de Sistemas.
+```{matlab}
+% DOS ECUACIONES CON 2 INCOGNITAS
+
+    A = [2 2; -1 1];
+    b = [1;2;];
+    AB = [A b];
+
+    % 1º Despejamos las y
+    %%%% y = (1-2x)/2
+    %%%% y = 2 + x
+
+    x = linspace(-5,10,100); % Voy a crear 100 puntos espaciados en 10
+    y1 = (1-2*x)/2;
+    y2 = 2+x;
+    plot(x,y1,x,y2) % Le ira dando valores a las x de la y
+    % Donde intersectan representa la unica solución del sistema
+
+% TRES ECUACIONES CON 2 INCOGNITAS
+    A = [4 2; 1 -2; 3 4];
+    b = [3;2;1];
+    AB = [A b];
+
+    % 1º Despejamos las x2 (se podria tambien despejas las x1)
+    %%%% x2 = (3-4*x1)/2
+    %%%% x2 = (x1-2)/2
+    %%%% x2 = (1-3*x1)/4
+
+    x1 = linspace(-4,4,100);
+    x2a = (3-4*x1)/2;
+    x2b = (x1-2)/2;
+    x2c = (1-3*x1)/4;
+    plot(x1,x2a,x1,x2b,x1,x2c); % Le ira dando valores a las x de la y
+    % Donde intersectan representa la unica solución del sistema
+
+% TRES ECUACIONES CON 3 INCOGNITAS
+    A = [1 1 2; 2 4 -3; 3 6 -5];
+    b = [9;1;0];
+    AB = [A b];
+
+    % 1º Despejamos las x2 (se podria tambien despejas las x1)
+    %%%% z = (9-x-y)/2
+    %%%% z = (-1+2*x+4*y)/3
+    %%%% z = (3*x+6*y)/5
+    
+    % Da a 'x' e 'y' valores desde 0 a 3 en pasos de 0.1
+    [x,y] = meshgrid(0:0.1:3);
+    
+    % 2º Para cada pareja de 'x' e 'y' declaro 'z'
+    
+        hold on % Inicio de un dibujo
+
+        z = (9-x-y)/2;
+        mesh(x,y,z); % Creo una malla con la 'x' e 'y' y la 'z' que acabo de contruir
+
+        z = (-1+2*x+4*y)/3;
+        mesh(x,y,z); % Creo una malla con la 'x' e 'y' y la 'z' que acabo de contruir
+
+        z = (3*x+6*y)/5;
+        mesh(x,y,z); % Creo una malla con la 'x' e 'y' y la 'z' que acabo de contruir
+
+        % Punto de interseccion
+        plot3(1,2,3,'ro','markersize',5,'markerfacecolor','r');
+        
+        hold off % Fin de un dibujo
+
+        view(120,30) % Con esto se representa todo lo anterior con un tamaño de 120 x 30
+```
+
+### Metodo Gauss.
+```{matlab}
+A = [1 1 2; 2 4 -3; 3 6 -5];
+b = [9;1;0];
+AB = [A b];
+
+rref(AB) % Nos da la funcion rref aplicada a la matriz ampliada
+         %es decir, nos da el resultado aplicando Gauss
+```
+
+## Sistemas compatibles indeterminados.
+```{matlab}
+A = [1 1 -1; 1 -1 1; 3 1 -1];
+b = [2;1;5];
+AB = [A b];
+
+% Comprobamos los rangos
+rango = rank(A)
+rank(A) == rank(AB) % ans = 1 quiere decir True
+
+rref(AB) 
+    % x = 1.5
+    % y-z = 0.5
+    % z € R
+
+% Representacion grafica
+    
+    %Despejamos Z
+    % z = x+y-2
+    % z = 1-x+y
+    % z = 3*x+y-5
+    %Y creamos las mallas
+    
+    [x,y] = meshgrid(0:0.1:3);
+    
+    
+    hold on % Inicio de un dibujo
+
+    z = x+y-2;
+    mesh(x,y,z); 
+
+    z = 1-x+y;
+    mesh(x,y,z); 
+
+    z = 3*x+y-5;
+    mesh(x,y,z);
+
+    hold off % Fin de un dibujo
+
+    view(120,30) % Muestro el dibujo
+
+```
+
+## Sistemas Incompatibles.
+```{matlab}
+A = [1 1; 1 -1; 2 1];
+b = [2;1;3];
+AB = [A b];
+
+% Comprobamos los rangos
+rank(A) == rank(AB) % ans = 0 quiere decir False
+
+% Representacion grafica
+    
+    %Despejamos x2
+    % x2 = 2 - x1
+    % x2 = x1 - 2
+    % x2 = 3 - 2*x1
+    
+    x1 = linspace(0,3,100);
+    x2a = 2 - x1;
+    x2b = x1 - 2;
+    x2c = 3 - 2*x1;
+    z = x+y-2;
+    plot(x1,x2a,x1,x2b,x1,x2c);
+
+% Si usasemos rref obtendriamos esto
+rref(AB) % 0 no puede ser igual a 1, asi que es incompatible
+```
+
+## Ecuaciones matriciales.
+```{matlab}
+% AX + 3B = (C+D)X + 3D + 10I 
+% Hay que llegar a la forma M*X = N
+% Solucionado -> (A-(C+D))X = 3(D-B) + 10I
+
+A = [0 4; 2 1];
+B = [1 -1; 2 3];
+C = [1 2; 3 -2];
+D = [-2 1; -1 1];
+I = [1 0; 0 1];
+
+M = A-(C+D);
+N = 3*(D-B)+10*I
+
+X = linsolve(M,N)
+```
