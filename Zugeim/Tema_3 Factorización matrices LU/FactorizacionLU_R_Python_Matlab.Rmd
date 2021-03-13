@@ -1,0 +1,84 @@
+---
+title: "Factorizacio_LU"
+author: "Imanol"
+date: "13/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_chunk$set(engine.path = list(matlab = "C:/Archivos de programa/MATLAB/R2020b/bin/matlab.exe"))
+
+library(reticulate)
+use_python("../../../anaconda3/envs/Curso Algebra Lineal/python.exe")
+
+```
+
+# R 
+
+## Factorizaciones LU sin permutación
+```{r}
+library(matlib)
+
+A = rbind(c(1,3,0,-1),c(2,1,-1,5),c(0,-2,3,-1),c(1,1,3,1))
+luA = LU(A)
+
+# Le  puedo pedir la matriz P (sera la matriz identidad porque no he permutado ninguna fila)
+luA$P
+
+# Le puedo pedir la matriz L
+luA$L
+
+# Le puedo pedri la matriz U
+luA$U
+
+# Comprobacion 
+luA$L%*%luA$U == A
+```
+
+## Factorizaciones LU con permutación
+```{r}
+library(matlib)
+
+A = rbind(c(0,1,3),c(1,3,-2),c(-3,-2,-1))
+luA = LU(A)
+
+# Le  puedo pedir la matriz P (se ha permutado la primera y segunda fila)
+luA$P
+
+# Le puedo pedir la matriz L
+luA$L
+
+# Le puedo pedri la matriz U
+luA$U
+
+# Comprobacion 
+luA$P%*%luA$L%*%luA$U == A
+```
+
+## Resolver sistemas
+
+```{r}
+library(matlib)
+
+A = rbind(c(0,1,3),c(1,3,-2),c(-3,-2,-1))
+b = c(1,3,-2)
+
+sistema = LU(A,b)
+
+# Le  puedo pedir la matriz P (se ha permutado la primera y segunda fila)
+sistema$P
+
+# Le puedo pedir la matriz L
+sistema$L
+
+# Le puedo pedri la matriz U
+sistema$U
+
+# Solucion del sistema L*d = b
+sistema$d
+
+# SOlucion del sistema
+sistema$x
+```
