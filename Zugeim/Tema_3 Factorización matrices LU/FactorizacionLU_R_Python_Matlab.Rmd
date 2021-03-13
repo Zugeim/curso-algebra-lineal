@@ -82,3 +82,80 @@ sistema$d
 # SOlucion del sistema
 sistema$x
 ```
+
+# Python 
+
+## Factorizaciones LU sin permutación
+```{python}
+import scipy
+import scipy.linalg
+
+A = scipy.array([[1,3,0,-1], [2,1,-1,5], [0,-2,3,-1], [1,1,3,1]])
+P, L, U = scipy.linalg.lu(A)
+
+# Le  puedo pedir la matriz P 
+P # No era neceraria la permutacion pero python lo ha visto oportuno
+
+# Le puedo pedir la matriz L
+L
+
+# Le puedo pedri la matriz U
+U
+
+# Comprobacion 
+(P.dot(L)).dot(U) == A
+```
+
+## Factorizaciones LU con permutación
+```{python}
+import scipy
+import scipy.linalg
+
+A = scipy.array([[0,1,3], [1,3,-2], [-3,-2,-1]])
+P, L, U = scipy.linalg.lu(A)
+
+# Le  puedo pedir la matriz P 
+P # No era neceraria la permutacion pero python lo ha visto oportuno
+
+# Le puedo pedir la matriz L
+L
+
+# Le puedo pedri la matriz U
+U
+
+# Comprobacion 
+(P.dot(L)).dot(U) == A
+```
+
+## Reducir la informacion del metodo LU
+
+Se usa esto para ahorrar memoria teniendo muillones de datos
+```{python}
+import scipy
+import scipy.linalg
+
+A = scipy.array([[0,1,3], [1,3,-2], [-3,-2,-1]])
+LU, piv = scipy.linalg.lu_factor(A)
+
+# L y U juntas
+LU # Diagonal superior U y la inferior L
+
+# Nos da que filas fueron intercambiadas
+piv # La primera fila ha sido cambiada por la tercera (0->2), la segunda fila se mantiene (1) y la tercera fila se cambio por la 1.
+```
+
+## Resolver sistemas
+
+```{python}
+import scipy
+import scipy.linalg
+
+A = scipy.array([[0,1,3], [1,3,-2], [-3,-2,-1]])
+
+LU, piv = scipy.linalg.lu_factor(A)
+
+b = [1, 3, -2]
+
+x = scipy.linalg.lu_solve((LU,piv),b)
+x
+```
