@@ -33,11 +33,30 @@ luA$L
 luA$U
 
 # Comprobacion 
-luA$P%*%luA$L%*%luA$U == A
+round(luA$L%*%luA$U) == luA$P%*%A
 ```
 
 
 ## Python
+```{python}
+import scipy
+import scipy.linalg
+
+A1 = scipy.array([[0,2,-3,4], [0,0,-5,-1], [5,-1,-2,0], [-2,0,4,6]])
+P, L, U = scipy.linalg.lu(A1)
+
+# Le  puedo pedir la matriz P 
+P # Hay permutacion
+
+# Le puedo pedir la matriz L
+L
+
+# Le puedo pedri la matriz U
+U
+
+# Comprobacion 
+L.dot(U) == (P.transpose()).dot(A1) # Hay que transponer la matriz P porque Python permuta por columnas
+```
 
 ## Matlab
 ```{matlab}
@@ -47,18 +66,55 @@ A1 = [0 2 -3 4;
      -2 0 4 6]
 
 % Factorizacion
-[L,U,P] = lu(A1)
+[L,U,P] = lu(A1) % Hay permutaciones
 
-% Comprobacion
-P*L*U == A1
+% Comprobacion 
+round(L*U) == P*A1
 ```
 
 
 # A2
 
 ## R
+```{r}
+library(matlib)
+
+A2 = rbind(c(1,2,-1,4),c(0,-1,5,8),c(2,3,1,4),c(1,-1,6,4))
+luA = LU(A2)
+
+# Le  puedo pedir la matriz P (no se ha permutado ninguna fila)
+luA$P
+
+# Le puedo pedir la matriz L
+luA$L
+
+# Le puedo pedri la matriz U
+luA$U
+
+# Comprobacion 
+luA$L%*%luA$U == A2
+```
 
 ## Python
+```{python}
+import scipy
+import scipy.linalg
+
+A2 = scipy.array([[1,2,-1,4], [0,-1,5,8], [2,3,1,4], [1,-1,6,4]])
+P, L, U = scipy.linalg.lu(A2)
+
+# Le  puedo pedir la matriz P 
+P # Hay permutacion
+
+# Le puedo pedir la matriz L
+L
+
+# Le puedo pedri la matriz U
+U
+
+# Comprobacion 
+L.dot(U) == (P.transpose()).dot(A2) # Hay que transponer la matriz P porque Python permuta por columnas
+```
 
 ## Matlab
 ```{matlab}
@@ -68,17 +124,56 @@ A2 = [1 2 -1 4;
      1 -1 6 4]
 
 % Factorizacion
-[L,U,P] = lu(A2)
+[L,U,P] = lu(A2) % Hay permutaciones
 
 % Comprobacion
-P*L*U == A2
+L*U == P*A2 
 ```
 
 # A3
 
 ## R
+```{r}
+library(matlib)
+
+A3 = rbind(c(2,4,-2,0),c(3,7,5,-4),c(-1,2,-2,5),c(6,1,0,2))
+luA = LU(A3)
+
+# Le  puedo pedir la matriz P (no se ha permutado ninguna fila)
+luA$P
+
+# Le puedo pedir la matriz L
+luA$L
+
+# Le puedo pedri la matriz U
+luA$U
+
+# Comprobacion 
+round(luA$L%*%luA$U) == A3
+```
 
 ## Python
+```{python}
+import scipy
+import scipy.linalg
+
+A3 = scipy.array([[2,4,-2,0], [3,7,5,-4], [-1,2,-2,5], [6,1,0,2]])
+P, L, U = scipy.linalg.lu(A3)
+
+# Le  puedo pedir la matriz P 
+P # Hay permutacion
+
+# Le puedo pedir la matriz L
+L
+
+# Le puedo pedri la matriz U
+U
+
+# Comprobacion 
+import numpy as np
+np.round(L.dot(U)) == (P.transpose()).dot(A3) # Hay que transponer la matriz P porque Python permuta por columnas
+
+```
 
 ## Matlab
 ```{matlab}
@@ -88,17 +183,55 @@ A3 = [2 4 -2 0;
      6 1 0 2]
 
 % Factorizacion
-[L,U,P] = lu(A3)
+[L,U,P] = lu(A3) % Hay permutaciones
 
-% Comprobacion
-P*L*U == A3
+% Comprobacion 
+round(L*U) == P*A3
 ```
 
 # A4
 
 ## R
+```{r}
+library(matlib)
+
+A4 = rbind(c(0,2,3,1),c(0,4,-1,5),c(2,0,3,1),c(1,-4,5,6))
+luA = LU(A4)
+
+# Le  puedo pedir la matriz P (Permutan la fila 1 y 2)
+luA$P
+
+# Le puedo pedir la matriz L
+luA$L
+
+# Le puedo pedri la matriz U
+luA$U
+
+# Comprobacion 
+round(luA$L%*%luA$U) == luA$P%*%A4
+```
+
 
 ## Python
+```{python}
+import scipy
+import scipy.linalg
+
+A4 = scipy.array([[0,2,3,1], [0,4,-1,5], [2,0,3,1], [1,-4,5,6]])
+P, L, U = scipy.linalg.lu(A4)
+
+# Le  puedo pedir la matriz P 
+P # Hay permutacion
+
+# Le puedo pedir la matriz L
+L
+
+# Le puedo pedri la matriz U
+U
+
+# Comprobacion 
+L.dot(U) == (P.transpose()).dot(A4) # Hay que transponer la matriz P porque Python permuta por columnas
+```
 
 ## Matlab
 ```{matlab}
@@ -108,8 +241,8 @@ A4 = [0 2 3 1;
      1 -4 5 6]
 
 % Factorizacion
-[L,U,P] = lu(A4)
+[L,U,P] = lu(A4) % Hay permutaciones
 
 % Comprobacion
-P*L*U == A4
+L*U == P*A4
 ```
