@@ -1,0 +1,245 @@
+---
+title: "Determinantes"
+author: "Imanol"
+date: "17/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_chunk$set(engine.path = list(matlab = "C:/Archivos de programa/MATLAB/R2020b/bin/matlab.exe"))
+
+library(reticulate)
+use_python("../../../anaconda3/envs/Curso Algebra Lineal/python.exe")
+```
+
+
+# Pregunta 1
+
+Calcula los siguientes determinantes
+
+## R
+```{r}
+library(matlib)
+
+A = rbind(c(1,2,3,4), c(0,1,0,1), c(4,3,2,1), c(3,3,0,5))
+A
+B = rbind(c(1,1,1,-1), c(0,1,3,1), c(-1,0,2,1), c(0,3,0,5))
+B
+C = rbind(c(1,1,1,-1,0), c(0,1,3,1,0), c(-1,0,2,1,0), c(0,3,0,5,0), c(1,2,3,4,5))
+C
+D = rbind(c(0,0,0,2), c(0,5,0,3), c(1,2,3,-2), c(4,0,-3,0))
+D
+
+det(A) # -50
+det(B) # -9
+det(C) # -45
+det(D) # -150
+```
+
+## Python
+```{python}
+import numpy as np
+
+A = np.array([[1,2,3,4],[0,1,0,1],[4,3,2,1],[3,3,0,5]])
+print(A)
+B = np.array([[1,1,1,-1],[0,1,3,1],[-1,0,2,1],[0,3,0,5]])
+print(B)
+C = np.array([[1,1,1,-1,0],[0,1,3,1,0],[-1,0,2,1,0],[0,3,0,5,0],[1,2,3,4,5]])
+print(C)
+D = np.array([[0,0,0,2],[0,5,0,3],[1,2,3,-2],[4,0,-3,0]])
+print(D)
+
+int(np.linalg.det(A)) # -49
+int(np.linalg.det(B)) # -9
+int(np.linalg.det(C)) # -45
+int(np.linalg.det(D)) # -149
+```
+
+
+# Pregunta 2
+
+## R
+```{r}
+library(matlib)
+
+A = rbind(c(1,1,1), c(2,1,2),c(0,2,5))
+b = c(0,0,1)
+AB = cbind(A,b)
+
+# Comprobar que los rangos son iguales
+qr(A)$rank == qr(AB)$rank
+
+# Comprobar si ademas el rango es igual a las incognitas
+qr(A)$rank == 3 # Determinado
+
+##################################################################
+
+A = rbind(c(3,1,5), c(2,1,2), c(1,-2,3))
+b = c(2,0,1)
+AB = cbind(A,b)
+
+# Comprobar que los rangos son iguales
+qr(A)$rank == qr(AB)$rank
+
+# Comprobar si ademas el rango es igual a las incognitas
+qr(A)$rank == 3 # Determinado
+
+##################################################################
+
+A = rbind(c(3,0,-7), c(2,1,2), c(-2,2,3))
+b = c(2,9,-11)
+AB = cbind(A,b)
+
+# Comprobar que los rangos son iguales
+qr(A)$rank == qr(AB)$rank
+
+# Comprobar si ademas el rango es igual a las incognitas
+qr(A)$rank == 3 # Determinado
+
+##################################################################
+
+A = rbind(c(3,-3,-7,1), c(2,0,2,2), c(-2,2,3,-1), c(2,2,3,1))
+b = c(-2,0,-1,-3)
+AB = cbind(A,b)
+
+# Comprobar que los rangos son iguales
+qr(A)$rank == qr(AB)$rank
+
+# Comprobar si ademas el rango es igual a las incognitas
+qr(A)$rank == 4 # Determinado
+```
+
+
+## Python
+```{python}
+import numpy as np
+
+A1 = np.array([[1,1,1],[2,1,2],[0,2,5]])
+b1 = np.array([0,0,1])
+
+AB1 = np.array([[1,1,1,0],[2,1,2,0],[0,2,5,1]])
+
+#Comprobar que los rangos son iguales
+np.linalg.matrix_rank(A1) == np.linalg.matrix_rank(AB1) # Sistema compatible 
+
+# Comprobar si ademas el rango es igual a las incognitas
+np.linalg.matrix_rank(A1) == 3 # Determinado
+
+##################################################################
+
+A2 = np.array([[3,1,5],[2,1,2],[1,-2,3]])
+b2 = np.array([2,0,1])
+
+AB2 = np.array([[3,1,5,2],[2,1,2,0],[1,-2,3,1]])
+
+#Comprobar que los rangos son iguales
+np.linalg.matrix_rank(A2) == np.linalg.matrix_rank(AB2) # Sistema compatible 
+
+# Comprobar si ademas el rango es igual a las incognitas
+np.linalg.matrix_rank(A2) == 3 # Determinado
+
+##################################################################
+
+A3 = np.array([[3,0,-7],[2,1,2],[-2,2,3]])
+b3 = np.array([2,9,-11])
+
+AB3 = np.array([[3,0,-7,2],[2,1,2,9],[-2,2,3,-11]])
+
+#Comprobar que los rangos son iguales
+np.linalg.matrix_rank(A3) == np.linalg.matrix_rank(AB3) # Sistema compatible 
+
+# Comprobar si ademas el rango es igual a las incognitas
+np.linalg.matrix_rank(A3) == 3 # Determinado
+
+##################################################################
+
+A3 = np.array([[3,-3,-7,1],[2,0,2,2],[-2,2,3,-1],[2,2,3,1]])
+b3 = np.array([-2,0,-1,-3])
+
+AB3 = np.array([[3,-3,-7,1,-2],[2,0,2,2,0],[-2,2,3,-1,-1],[2,2,3,1,-3]])
+
+#Comprobar que los rangos son iguales
+np.linalg.matrix_rank(A3) == np.linalg.matrix_rank(AB3) # Sistema compatible 
+
+# Comprobar si ademas el rango es igual a las incognitas
+np.linalg.matrix_rank(A3) == 4 # Determinado
+```
+
+
+# Pregunta 3
+
+# Pregunta 4
+
+# Pregunta 5
+
+## R
+```{r}
+library(matlib)
+
+A = rbind(c(1,0,0,0), c(0,0,0,4), c(0,2,0,0),c(0,0,3,0))
+A
+qr(A)$rank
+round(solve(A),2)
+
+B = rbind(c(1,0,0,0),c(0,3,0,0),c(0,0,5,0), c(0,0,0,7))
+B
+qr(B)$rank 
+round(solve(B),2)
+
+C = rbind(c(1,0,0,0), c(0,0,0,4), c(0,2,0,0), c(0,0,3,0))
+C
+qr(C)$rank
+round(solve(C),2)
+
+D = rbind(c(9,7,1,4,2), c(6,5,7,4,3), c(1,9,2,6,5), c(2,1,0,-1,-2), c(9,7,5,3,1))
+D
+qr(D)$rank
+round(solve(D),2)
+
+E = rbind(c(0,a), c(a,0))
+E
+qr(E)$rank
+round(solve(E),2)
+
+F = rbind(c(2,1,0), c(3,a,4), c(0,0,-1))
+F
+qr(F)$rank
+round(solve(F),2)
+```
+
+
+## Python
+```{python}
+A = np.array([[1,0,0,0],[0,0,0,4],[0,2,0,0],[0,0,3,0]])
+print(A)
+np.linalg.matrix_rank(A) 
+print(np.round(np.linalg.inv(A),2))
+
+B = np.array([[1,0,0,0],[0,3,0,0],[0,0,5,0],[0,0,0,7]])
+print(B)
+np.linalg.matrix_rank(B) 
+print(np.round(np.linalg.inv(B),2))
+
+C = np.array([[1,0,0,0],[0,0,0,4],[0,2,0,0],[0,0,3,0]])
+print(C)
+np.linalg.matrix_rank(C) 
+print(np.round(np.linalg.inv(C),2))
+
+D = np.array([[9,7,1,4,2],[6,5,7,4,3],[1,9,2,6,5],[2,1,0,-1,-2],[9,7,5,3,1]])
+print(D)
+np.linalg.matrix_rank(D) 
+print(np.round(np.linalg.inv(D),2))
+
+E = np.array([[0,a],[a,0]])
+print(E)
+np.linalg.matrix_rank(E) 
+print(np.round(np.linalg.inv(E),2))
+
+F = rbind([[2,1,0], [3,a,4], [0,0,-1]])
+print(F)
+np.linalg.matrix_rank(F) 
+print(np.round(np.linalg.inv(F),2))
+```
+
