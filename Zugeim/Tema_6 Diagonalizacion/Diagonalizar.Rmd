@@ -1,0 +1,103 @@
+---
+title: "Diagonalizacion R, Python y Matlab"
+author: "Imanol"
+date: "10/5/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_chunk$set(engine.path = list(matlab = "C:/Archivos de programa/MATLAB/R2020b/bin/matlab.exe"))
+
+library(reticulate)
+use_python("../../../anaconda3/envs/Curso Algebra Lineal/python.exe")
+```
+
+
+
+# R 
+
+Para ver como usa la diagonalización poner: ?eigen
+
+## Ejemplo de diagonalizacion de una matriz cuadrada.
+```{r}
+A = rbind(c(2,-1,1),c(2,-8,-2),c(1,2,2))
+
+isSymmetric(A)# Para ver si es simetrica 0 no y 1 si.
+
+eigen(A)-> eig # Creamos una variable que nos da los valores propios y los vectores propios.
+
+eig$values # Para ver los valores propios
+l1 = eig$values[1] # Para coger lambda 1.
+
+eig$vectors # Muestra los vectores propios en columnas
+v1 = eig$vectors[,1] # Para coger el vector propio 1
+
+A%*%v1 # A multiplicado matricialmente por v1
+l1*v1 # Deberia dar lo mismo que arriba
+
+A%*%v1 == l1*v1 # No sale True por problemas de redondeo.
+A%*%v1 - l1*v1 # Problemas de redondeo.
+
+library(dplyr)
+near(A%*%v1,l1*v1) # Mejor usar esto para saber si son el mismo numero
+
+solve(eig$vectors)%*%eig$vectors # Da la inversa de los vectores, esta multiplicacion deberia dar la identidad.Pero hay error de redondeo.
+```
+# Python 
+
+El profe usa spyder.
+
+## Ejemplo de diagonalizacion de una matriz cuadrada.
+```{python}
+import numpy as np
+from numpy import linalg as LA
+
+A = np.array([[2,-2,1],[2,-8,-2],[1,2,2]])
+print(A)
+
+w, v = LA.eig(A) # Me dara valores y vectores propios.
+
+l1 = w[0] # Primer valor propio
+print(l1)
+v1 = v[:,0] # Primer vector propio
+print(v1)
+
+# Estas dos multiplicaciones deberian ser iguales
+print(np.dot(A,v1))
+print(l1*v1)
+
+np.dot(A,v1) == l1*v1 # Falla por redondeos
+
+np.isclose(np.dot(A,v1),l1*v1) # Con esto se puede ver si son iguales incluso hasta que decimal quiero ver si son iguales
+```
+
+# Matlab 
+
+## Ejemplo de diagonalizacion de una matriz cuadrada.
+
+```{matlab}
+A = [[2,-2,1];[2,-8,-2];[1,2,2]]
+
+[v, lambda] = eig(A) % Me da los vectores propios y una matriz de los valores propios
+% Para dar los valores propios en un vector -> [v, lambda] = eig(A, "vector")
+inv(v)*v % Inversa de v por v da identidad
+
+inv(v)*A*v % Nos da la matriz diagonal
+
+% Comprobamos productos
+A*v
+lambda(1,1)*v(:,1)
+
+% Comprobamos igualdades
+A*v == v*lambda % No sale por errores de redondeo
+eq(A*v,v*lambda) % No sale por errores de redondeo
+
+    % Mejor comprobarlo asi:
+        sum(sum(abs(A*v - v*lambda))) <= 10^-8
+    % Otra manera:
+        le(sum(sum(abs(A*v - v*lambda))), sqrt(eps)) % le es menor igual
+                                                     % sqrt(eps) es entorno a 10^-8
+
+```
